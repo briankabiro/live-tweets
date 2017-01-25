@@ -31,4 +31,4 @@ var success = function(data){
 }
 
 
-twitter.getSearch({'q':'#100daysofcode', 'count':10}, error, success);
+twitter.getSearch({'q':'#100daysofcode', 'count':5}, error, success);
