@@ -5,8 +5,9 @@
 */
 
 var fs = require('fs');
-
-fs.readFile('data.txt', 'utf-8', function(err,data){
+module.exports = {
+	function(){
+	fs.readFile('data.txt', 'utf-8', function(err,data){
 	if(err) console.error(err);
 	else{
 		var tweetsArray = [];
@@ -33,13 +34,15 @@ fs.readFile('data.txt', 'utf-8', function(err,data){
 				}	
 			}
 			
-			console.log(name+ ':' +tweet +'\n')
-			tweetsArray.push[{"user_name":name, "tweet_text":tweet}]
+			//console.log(name+ ':' +tweet +'\n')
+			tweetsArray.push({"user_name":name,"tweet_text":tweet});
 		}
 		console.log('finished compiling tweets and name');	
-		/*for(i=0; i <= tweetsArray.length; i++){
-			console.log(tweetsArray[i].user_name +':'+ tweetsArray[i].tweet_text)
-		} */	
-	}
-});	
+		
+		return(tweetsArray); 	
+		}
+	});	
 
+	}
+
+}
