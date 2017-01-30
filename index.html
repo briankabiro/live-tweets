@@ -9,10 +9,30 @@
 		<div>
 			<h1>100 Days of Code</h1>
 			<div id="tweets">
+			<form>
+				<input id="tweetInput">
 				<button>Fetch</button>
+			</form>
 				The tweets will be written below
 				<div id='feed'></div>
 			</div>
 		</div>
+		<script src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+		<script>
+			var socket = io();
+
+			$('form').submit(function(e){
+				socket.emit('getTweets', null);
+				$('#tweetInput').val('');	
+				return false;
+			});
+			socket.on('tweets', function(msg){
+				console.log(msg);
+				jQuery.each(msg, function(index, item){
+					$('#feed').append($('<div>').text(item));
+				})
+			})
+		</script>
 	</body>
 </html>

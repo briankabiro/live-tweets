@@ -6,7 +6,7 @@
 
 var fs = require('fs');
 module.exports = {
-	function(){
+	tweetAnalyzer:function(){
 	fs.readFile('data.txt', 'utf-8', function(err,data){
 	if(err) console.error(err);
 	else{

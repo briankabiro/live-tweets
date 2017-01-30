@@ -12,6 +12,9 @@ var fs = require('fs');
 var express = require('express'),
 	tester = require('./tester.js'),
 	app = express();
+	server = require('http').Server(app);
+	io = require('socket.io')(server);
+
 
 var config = {
    "consumerKey" : "GJzKMZohpY1m3guTKIX1UCgk4",
@@ -33,18 +36,32 @@ var success = function(data){
 	fs.writeFile('data.txt', data, function(err){
 		if(err) console.error(err)
 		else{
-			console.log('data saved')
-			tester;
+			console.log('data saved');		
 		}
 	})
 };
 
+io.on('connection', function(socket){
+	socket.on('getTweets',function(){
+		//twitter.getSearch({'q':'#100daysofcode', 'count':5}, error, success);
+		var tweetsArray;
+		/*sortTweets = function(callback){
+			console.log('Compiling Tweets')
+			var tweetsArray = tester.tweetAnalyzer();
+			callback();
+		} */
+		sendTweets = function(){
+			console.log('Sending Tweets');
+			socket.emit('tweets', tweetsArray);
+		}
+		sendTweets();
+	})
+});
 
-twitter.getSearch({'q':'#100daysofcode', 'count':5}, error, success);
 
-app.get('/', function(req,res){
-	res.sendFile('index.html');
+app.get('*', function(req,res){
+	res.sendFile(__dirname + '/index.html');
 })
 
-app.listen(8080);
+server.listen(8080);
 
