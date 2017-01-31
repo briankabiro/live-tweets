@@ -44,17 +44,16 @@ var success = function(data){
 io.on('connection', function(socket){
 	socket.on('getTweets',function(){
 		//twitter.getSearch({'q':'#100daysofcode', 'count':5}, error, success);
-		var tweetsArray;
-		/*sortTweets = function(callback){
-			console.log('Compiling Tweets')
-			var tweetsArray = tester.tweetAnalyzer();
-			callback();
-		} */
-		sendTweets = function(){
-			console.log('Sending Tweets');
-			socket.emit('tweets', tweetsArray);
-		}
-		sendTweets();
+		sortTweets = function(){
+			console.log('Compiling Tweets');
+			var tweetData = tester.tweetAnalyzer();
+			setTimeout(function(){
+				console.log(tweetData);
+				console.log('Sending Tweets');
+				socket.emit('tweets', tweetData);
+			}, 1000);
+		} 
+		sortTweets();
 	})
 });
 
