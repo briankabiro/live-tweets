@@ -3,17 +3,18 @@
 	<head>
 		<meta charset="utf-8">
 		<html lang="en">
+		<link rel="stylesheet" type="text/css" href="index.css">
 		<title>100 Days of Code tweet Feed</title>
 	</head>
 	<body>
-		<div>
+		<div class="container">
 			<h1>100 Days of Code</h1>
 			<div id="tweets">
 			<form>
-				<input id="tweetInput">
+				<input type='text' placeholder="Write the hashtag here" autofocus="on">
 				<button>Fetch</button>
 			</form>
-				The tweets will be written below
+				<p>The tweets will be written below</p>
 				<div id='feed'></div>
 			</div>
 		</div>
@@ -30,8 +31,8 @@
 			socket.on('tweets', function(msg){
 				console.log(msg);
 				jQuery.each(msg, function(index, item){
-					jQuery.each(item, function(key, value){
-						$('#feed').append('<div>'+value +'</div>'+'<br>');	
+					jQuery.each(item, function(innerIndex){
+						$('#feed').append('<div>'+ item[innerIndex][0] + ':' + item[innerIndex][1] +'</div>'+'<br>');	
 					});
 					
 				})

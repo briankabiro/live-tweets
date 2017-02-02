@@ -32,7 +32,7 @@ module.exports = {
 					}	
 				}
 				//console.log(name+ ':' +tweet +'\n')
-				tweetsArray.push({"user_name":name,"tweet_text":tweet});
+				tweetsArray.push([name,tweet]);
 			}
 			console.log('finished compiling tweets and name');
 			return tweetsArray;	
