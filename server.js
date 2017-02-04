@@ -9,12 +9,15 @@ writes them to a file and then closes connection
 iterates and upon finish and writes them to the DOM
  */
 var fs = require('fs');
+var path = require('path');
+
 var express = require('express'),
 	tester = require('./tester.js'),
 	app = express();
 	server = require('http').Server(app);
 	io = require('socket.io')(server);
 
+app.use('/public', express.static(path.join(__dirname + '/public')));
 
 var config = {
    "consumerKey" : "GJzKMZohpY1m3guTKIX1UCgk4",
@@ -43,17 +46,19 @@ var success = function(data){
 
 io.on('connection', function(socket){
 	socket.on('getTweets',function(){
-		//twitter.getSearch({'q':'#100daysofcode', 'count':5}, error, success);
-		sortTweets = function(){
+		function getFromTwitter(){
+			twitter.getSearch({'q':'#100daysofcode', 'count':5}, error, success);
+		}
+		getFromTwitter.then(sortTweets)
+		var sortTweets = function(){
 			console.log('Compiling Tweets');
 			var tweetData = tester.tweetAnalyzer();
-			setTimeout(function(){
-				console.log(tweetData);
-				console.log('Sending Tweets');
-				socket.emit('tweets', tweetData);
-			}, 1000);
-		} 
-		sortTweets();
+			console.log('Sending Tweets');
+		}
+		getTweets.then(sortTweets, console.error)
+		sortTweets.then(socket.emit('tweets', tweetData), console.error)
+		}
+		getTweets();
 	})
 });
 

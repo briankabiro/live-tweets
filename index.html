@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<html lang="en">
-		<link rel="stylesheet" type="text/css" href="index.css">
+		<link rel="stylesheet" href="/public/index.css">
 		<title>100 Days of Code tweet Feed</title>
 	</head>
 	<body>
@@ -29,12 +29,8 @@
 				return false;
 			});
 			socket.on('tweets', function(msg){
-				console.log(msg);
 				jQuery.each(msg, function(index, item){
-					jQuery.each(item, function(innerIndex){
-						$('#feed').append('<div>'+ item[innerIndex][0] + ':' + item[innerIndex][1] +'</div>'+'<br>');	
-					});
-					
+					$("#feed").append("<div>" + item.user_name + " : " + item.user_tweet + "</div>");
 				})
 			})
 		</script>
