@@ -46,26 +46,27 @@ var success = function(data){
 
 io.on('connection', function(socket){
 	socket.on('getTweets',function(){
-		function getFromTwitter(){
-			twitter.getSearch({'q':'#100daysofcode', 'count':5}, error, success);
-		}
-		getFromTwitter.then(sortTweets)
-		var sortTweets = function(){
+
+		var getFromTwitter = new Promise (
+			function(resolve, reject){
+				twitter.getSearch({'q':'#100daysofcode', 'count':5}, error, success);
+			}
+		)
+		var sortTweets = function (){
 			console.log('Compiling Tweets');
 			var tweetData = tester.tweetAnalyzer();
 			console.log('Sending Tweets');
+			return tweetData;
 		}
-		getTweets.then(sortTweets, console.error)
-		sortTweets.then(socket.emit('tweets', tweetData), console.error)
-		}
-		getTweets();
+		getFromTwitter.then(sortTweets(), console.error);
+		getFromTwitter.then(socket.emit('tweets', sortTweets), console.error);
 	})
 });
 
 
 app.get('*', function(req,res){
 	res.sendFile(__dirname + '/index.html');
-})
+});
 
 server.listen(8080);
 
