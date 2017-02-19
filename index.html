@@ -8,10 +8,9 @@
 	</head>
 	<body>
 		<div class="container">
-			<h1>100 Days of Code</h1>
+			<h1>Fetch tweets from 100 Days of Code hashtag</h1>
 			<div id="tweets">
 			<form>
-				<input type='text' placeholder="Write the hashtag here" autofocus="on">
 				<button>Fetch</button>
 			</form>
 				<p>The tweets will be written below</p>
@@ -30,7 +29,14 @@
 			});
 			socket.on('tweets', function(msg){
 				jQuery.each(msg, function(index, item){
-					$("#feed").append("<div>" + item.user_name + " : " + item.user_tweet + "</div>");
+					$("#feed").append("<div><b>" + item.user_name + " :</b> <br><em>" + item.user_tweet + "</em></div>");
+					$("#feed div").css({
+						'border':'1px solid white',
+						'margin-top':'1em',
+						'padding':'1em',
+						'background-color':'white',
+						'color':'black'
+					});
 				})
 			})
 		</script>

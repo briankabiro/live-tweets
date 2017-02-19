@@ -39,27 +39,27 @@ var success = function(data){
 	fs.writeFile('data.txt', data, function(err){
 		if(err) console.error(err)
 		else{
-			console.log('data saved');		
+			console.log('data saved');
+			sortTweets();		
 		}
 	})
 };
 
+var sortTweets = function(){
+	console.log('Compiling Tweets');
+	var tweetData = tester.tweetAnalyzer();
+	console.log('Sending Tweets');
+	io.emit('tweets', tweetData);
+}
+
 io.on('connection', function(socket){
 	socket.on('getTweets',function(){
 
-		var getFromTwitter = new Promise (
-			function(resolve, reject){
-				twitter.getSearch({'q':'#100daysofcode', 'count':5}, error, success);
-			}
-		)
-		var sortTweets = function (){
-			console.log('Compiling Tweets');
-			var tweetData = tester.tweetAnalyzer();
-			console.log('Sending Tweets');
-			return tweetData;
+		var getFromTwitter = function(){
+			console.log('getting tweets');
+			twitter.getSearch({'q':'#100daysofcode', 'count':5}, error, success);
 		}
-		getFromTwitter.then(sortTweets(), console.error);
-		getFromTwitter.then(socket.emit('tweets', sortTweets), console.error);
+		getFromTwitter();
 	})
 });
 
