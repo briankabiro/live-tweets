@@ -4,13 +4,15 @@
 		<meta charset="utf-8">
 		<html lang="en">
 		<link rel="stylesheet" href="/public/index.css">
-		<title>100 Days of Code tweet Feed</title>
+		<title>Tweet Feed</title>
 	</head>
 	<body>
 		<div class="container">
-			<h1>Fetch tweets from 100 Days of Code hashtag</h1>
+			<h1>Search Twitter</h1>
+			<h2>powered by Socket IO, Express JS, jQuery and Node JS</h2>
 			<div id="tweets">
 			<form>
+				<input type="text" name="tweetInput" id="tweetInput" placeholder="Type the search term here">
 				<button>Fetch</button>
 			</form>
 				<p>The tweets will be written below</p>
@@ -23,11 +25,13 @@
 			var socket = io();
 
 			$('form').submit(function(e){
-				socket.emit('getTweets', null);
+				var searchTerm = $('#tweetInput').val();
+				socket.emit('getTweets', searchTerm);
 				$('#tweetInput').val('');	
 				return false;
 			});
 			socket.on('tweets', function(msg){
+				$("#feed").html("");
 				jQuery.each(msg, function(index, item){
 					$("#feed").append("<div><b>" + item.user_name + " :</b> <br><em>" + item.user_tweet + "</em></div>");
 					$("#feed div").css({

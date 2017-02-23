@@ -53,11 +53,10 @@ var sortTweets = function(){
 }
 
 io.on('connection', function(socket){
-	socket.on('getTweets',function(){
-
+	socket.on('getTweets',function(searchTerm){
 		var getFromTwitter = function(){
 			console.log('getting tweets');
-			twitter.getSearch({'q':'#100daysofcode', 'count':5}, error, success);
+			twitter.getSearch({'q':searchTerm, 'count':5}, error, success);
 		}
 		getFromTwitter();
 	})
